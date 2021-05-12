@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 @Controller('forecast')
 export class ForecastController {
   @Get('')
-  public getForecastForLoggedUser(_: Request, res: Response): void {
+  public getForecastForLoggedUser(_: Request, res: Response): void { // TODO: refatorar para enviar os dados não estáticos
     res.send([
       {
         time: '2020-04-26T00:00:00+00:00',
