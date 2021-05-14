@@ -19,23 +19,28 @@ export class ForecastProcessingInternalError extends InternalError {
 export class Forecast {
   constructor(protected stormGlass = new StormGlass()) {}
 
-  public async processForecastForBeaches(beaches: Beach[]): Promise<TimeForecast[]> {
+  public async processForecastForBeaches(
+    beaches: Beach[]
+  ): Promise<TimeForecast[]> {
     const pointsWithCorrectSources: BeachForecast[] = [];
 
     try {
-      for(const beach of beaches) {
+      for (const beach of beaches) {
         const points = await this.stormGlass.fetchPoints(beach.lat, beach.lng);
         const enrichedBeachData = this.enrichedBeachData(points, beach);
         pointsWithCorrectSources.push(...enrichedBeachData);
       }
 
       return this.mapForecastByTime(pointsWithCorrectSources);
-    } catch(error) {
+    } catch (error) {
       throw new ForecastProcessingInternalError(error.message);
     }
   }
 
-  private enrichedBeachData(points: ForecastPoint[], beach: Beach): BeachForecast[] {
+  private enrichedBeachData(
+    points: ForecastPoint[],
+    beach: Beach
+  ): BeachForecast[] {
     return points.map((point) => ({
       ...{
         lat: beach.lat,
@@ -51,10 +56,10 @@ export class Forecast {
   private mapForecastByTime(forecast: BeachForecast[]): TimeForecast[] {
     const forecastByTime: TimeForecast[] = [];
 
-    for(const point of forecast) {
+    for (const point of forecast) {
       const timePoint = forecastByTime.find((f) => f.time === point.time);
 
-      if(timePoint){
+      if (timePoint) {
         timePoint.forecast.push(point);
       } else {
         forecastByTime.push({

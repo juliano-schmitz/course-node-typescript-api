@@ -1,10 +1,10 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface RequestConfig extends AxiosRequestConfig {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Response<T = any> = AxiosResponse<T>
+export type Response<T = any> = AxiosResponse<T>;
 
 export class Request {
   constructor(private request = axios) {}

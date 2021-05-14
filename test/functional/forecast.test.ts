@@ -1,4 +1,4 @@
-import { Beach, BeachPosition } from "@src/models/beach";
+import { Beach, BeachPosition } from '@src/models/beach';
 import stormGlassWeather3HoursFixture from '@test/fixtures/stormglass_weather_3_hours.json';
 import apiForecastResponse1BeachFixture from '@test/fixtures/api_forecast_response_1_beach.json';
 import nock from 'nock';
@@ -24,15 +24,15 @@ describe('Beach forecast functional test', () => {
         Authorization: (): boolean => true,
       },
     })
-    .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
-    .get('/v2/weather/point')
-    .query({
-      params: /(.*)/,
-      source: 'noaa',
-      lat: '-33.792726',
-      lng: '151.289824'
-    })
-    .reply(200, stormGlassWeather3HoursFixture);
+      .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
+      .get('/v2/weather/point')
+      .query({
+        params: /(.*)/,
+        source: 'noaa',
+        lat: '-33.792726',
+        lng: '151.289824',
+      })
+      .reply(200, stormGlassWeather3HoursFixture);
 
     const { body, status } = await global.testRequest.get('/forecast');
     expect(status).toBe(200);
@@ -46,13 +46,13 @@ describe('Beach forecast functional test', () => {
         Authorization: (): boolean => true,
       },
     })
-    .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
-    .get('/v2/weather/point')
-    .query({
-      lat: '-33.792726',
-      lng: '151.289824'
-    })
-    .replyWithError('Something went wrong');
+      .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
+      .get('/v2/weather/point')
+      .query({
+        lat: '-33.792726',
+        lng: '151.289824',
+      })
+      .replyWithError('Something went wrong');
 
     const { status } = await global.testRequest.get('/forecast');
 

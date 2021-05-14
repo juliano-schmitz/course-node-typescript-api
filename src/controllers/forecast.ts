@@ -8,12 +8,18 @@ const forecastService = new Forecast();
 @Controller('forecast')
 export class ForecastController {
   @Get('')
-  public async getForecastForLoggedUser(_: Request, res: Response): Promise<void> { // TODO: refatorar para enviar os dados não estáticos
+  public async getForecastForLoggedUser(
+    _: Request,
+    res: Response
+  ): Promise<void> {
+    // TODO: refatorar para enviar os dados não estáticos
     try {
       const beaches = await Beach.find({});
-      const forecastData = await forecastService.processForecastForBeaches(beaches);
+      const forecastData = await forecastService.processForecastForBeaches(
+        beaches
+      );
       res.status(200).send(forecastData);
-    } catch(error) {
+    } catch (error) {
       res.status(500).send({ error: 'Something went wrong' });
     }
   }

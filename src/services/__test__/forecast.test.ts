@@ -9,7 +9,9 @@ describe('Forecast service', () => {
   const mockedStormGlassClient = new StormGlass() as jest.Mocked<StormGlass>;
 
   it('should return the forecast for a list of beaches', async () => {
-    mockedStormGlassClient.fetchPoints.mockResolvedValue(stormGlassNormalizedResponse3HoursFixture);
+    mockedStormGlassClient.fetchPoints.mockResolvedValue(
+      stormGlassNormalizedResponse3HoursFixture
+    );
 
     const beaches: Beach[] = [
       {
@@ -17,7 +19,7 @@ describe('Forecast service', () => {
         lng: 151.289824,
         name: 'Manly',
         position: BeachPosition.E,
-      }
+      },
     ];
 
     const expectedResponse = [
@@ -38,8 +40,8 @@ describe('Forecast service', () => {
             waveHeight: 0.47,
             windDirection: 299.45,
             windSpeed: 100,
-          }
-        ]
+          },
+        ],
       },
       {
         time: '2020-04-26T01:00:00+00:00',
@@ -58,8 +60,8 @@ describe('Forecast service', () => {
             waveHeight: 0.46,
             windDirection: 310.48,
             windSpeed: 100,
-          }
-        ]
+          },
+        ],
       },
       {
         time: '2020-04-26T02:00:00+00:00',
@@ -78,8 +80,8 @@ describe('Forecast service', () => {
             waveHeight: 0.46,
             windDirection: 321.5,
             windSpeed: 100,
-          }
-        ]
+          },
+        ],
       },
     ];
 
@@ -101,12 +103,14 @@ describe('Forecast service', () => {
         lng: 151.289824,
         name: 'Manly',
         position: BeachPosition.E,
-      }
+      },
     ];
 
     mockedStormGlassClient.fetchPoints.mockRejectedValue('Error fetching data');
 
     const forecast = new Forecast(mockedStormGlassClient);
-    await expect(forecast.processForecastForBeaches(beaches)).rejects.toThrow(ForecastProcessingInternalError);
+    await expect(forecast.processForecastForBeaches(beaches)).rejects.toThrow(
+      ForecastProcessingInternalError
+    );
   });
 });

@@ -1,5 +1,5 @@
-import { InternalError } from "@src/util/errors/internal-error";
-import config, { IConfig } from "config";
+import { InternalError } from '@src/util/errors/internal-error';
+import config, { IConfig } from 'config';
 import * as HTTPUtil from '@src/util/request';
 
 export interface StormGlassPointSource {
@@ -34,22 +34,27 @@ export interface ForecastPoint {
 
 export class ClientRequestError extends InternalError {
   constructor(message: string) {
-    const internalMessage = 'Unexpected error when trying to communicate to StormGlass';
+    const internalMessage =
+      'Unexpected error when trying to communicate to StormGlass';
     super(`${internalMessage}: ${message}`);
   }
 }
 
 export class StormGlassResponseError extends InternalError {
   constructor(message: string) {
-    const internalMessage = 'Unexpected error returned by the StormGlass service';
+    const internalMessage =
+      'Unexpected error returned by the StormGlass service';
     super(`${internalMessage}: ${message}`);
   }
 }
 
-const stormGlassResourceConfig: IConfig = config.get('App.resources.StormGlass');
+const stormGlassResourceConfig: IConfig = config.get(
+  'App.resources.StormGlass'
+);
 
 export class StormGlass {
-  readonly stormGlassApiParams = 'swellDirection,swellHeight,swellPeriod,waveDirection,waveHeight,windDirection,windSpeed';
+  readonly stormGlassApiParams =
+    'swellDirection,swellHeight,swellPeriod,waveDirection,waveHeight,windDirection,windSpeed';
   readonly stormGlassApiSource = 'noaa';
 
   constructor(protected request = new HTTPUtil.Request()) {}
@@ -57,7 +62,9 @@ export class StormGlass {
   public async fetchPoints(lat: number, lng: number): Promise<ForecastPoint[]> {
     try {
       const response = await this.request.get<StormGlassForecastResponse>(
-        `${stormGlassResourceConfig.get('apiUrl')}/weather/point?params=${this.stormGlassApiParams}&source=${this.stormGlassApiSource}&lat=${lat}&lng=${lng}`,
+        `${stormGlassResourceConfig.get('apiUrl')}/weather/point?params=${
+          this.stormGlassApiParams
+        }&source=${this.stormGlassApiSource}&lat=${lat}&lng=${lng}`,
         {
           headers: {
             Authorization: stormGlassResourceConfig.get('apiToken'),
@@ -66,17 +73,21 @@ export class StormGlass {
       );
 
       return this.normalizeResponse(response.data);
-    } catch(error) {
+    } catch (error) {
       if (HTTPUtil.Request.isRequestError(error)) {
         throw new StormGlassResponseError(
-          `Error: ${JSON.stringify(error.response.data)} Code: ${error.response.status}`
+          `Error: ${JSON.stringify(error.response.data)} Code: ${
+            error.response.status
+          }`
         );
       }
       throw new ClientRequestError(error.message);
-    } 
+    }
   }
 
-  private normalizeResponse(points: StormGlassForecastResponse): ForecastPoint[] {
+  private normalizeResponse(
+    points: StormGlassForecastResponse
+  ): ForecastPoint[] {
     return points.hours.filter(this.isValidPoint.bind(this)).map((point) => ({
       time: point.time,
       swellDirection: point.swellDirection[this.stormGlassApiSource],
@@ -92,13 +103,13 @@ export class StormGlass {
   private isValidPoint(point: Partial<StormGlassPoint>): boolean {
     return !!(
       point.time &&
-      point.swellDirection ?.[this.stormGlassApiSource] &&
-      point.swellHeight ?.[this.stormGlassApiSource] &&
-      point.swellPeriod ?.[this.stormGlassApiSource] &&
-      point.waveDirection ?.[this.stormGlassApiSource] &&
-      point.waveHeight ?.[this.stormGlassApiSource] &&
-      point.windDirection ?.[this.stormGlassApiSource] &&
-      point.windSpeed ?.[this.stormGlassApiSource]
+      point.swellDirection?.[this.stormGlassApiSource] &&
+      point.swellHeight?.[this.stormGlassApiSource] &&
+      point.swellPeriod?.[this.stormGlassApiSource] &&
+      point.waveDirection?.[this.stormGlassApiSource] &&
+      point.waveHeight?.[this.stormGlassApiSource] &&
+      point.windDirection?.[this.stormGlassApiSource] &&
+      point.windSpeed?.[this.stormGlassApiSource]
     );
-  } 
+  }
 }

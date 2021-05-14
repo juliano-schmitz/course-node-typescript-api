@@ -6,18 +6,22 @@ import * as HTTPUtil from '@src/util/request';
 jest.mock('@src/util/request');
 
 describe('StormGlass client', () => {
-  const MockedRequestClass = HTTPUtil.Request as jest.Mocked<typeof HTTPUtil.Request>;
+  const MockedRequestClass = HTTPUtil.Request as jest.Mocked<
+    typeof HTTPUtil.Request
+  >;
   const mockedRequest = new HTTPUtil.Request() as jest.Mocked<HTTPUtil.Request>;
-  
+
   it('should return the normalized forecast from the forecast service', async () => {
     const lat = -27.3340574;
     const lng = -48.5356659;
 
-    mockedRequest.get.mockResolvedValue({ data: stormGlassWeather3HoursFixture } as HTTPUtil.Response);
+    mockedRequest.get.mockResolvedValue({
+      data: stormGlassWeather3HoursFixture,
+    } as HTTPUtil.Response);
 
     const stormGlass = new StormGlass(mockedRequest);
     const response = await stormGlass.fetchPoints(lat, lng);
-    
+
     expect(response).toEqual(stormGlassNormalized3HoursFixture);
   });
 
@@ -28,17 +32,19 @@ describe('StormGlass client', () => {
       hours: [
         {
           swellDirection: {
-            noaa: 64.26
+            noaa: 64.26,
           },
-          time: "2020-04-26T00:00:00+00:00",
+          time: '2020-04-26T00:00:00+00:00',
           waveDirection: {
-            noaa: 231.38
+            noaa: 231.38,
           },
-        }
-      ]
+        },
+      ],
     };
 
-    mockedRequest.get.mockResolvedValue({ data: incompleteResponse } as HTTPUtil.Response);
+    mockedRequest.get.mockResolvedValue({
+      data: incompleteResponse,
+    } as HTTPUtil.Response);
 
     const stormGlass = new StormGlass(mockedRequest);
     const response = await stormGlass.fetchPoints(lat, lng);
@@ -66,14 +72,14 @@ describe('StormGlass client', () => {
     const lng = -48.5356659;
 
     MockedRequestClass.isRequestError.mockReturnValue(true);
-    
+
     mockedRequest.get.mockRejectedValue({
       response: {
         status: 429,
         data: {
           errors: ['Rate Limit reached'],
         },
-      }
+      },
     });
 
     const stormGlass = new StormGlass(mockedRequest);
