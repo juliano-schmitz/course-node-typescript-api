@@ -12,8 +12,8 @@ describe('Forecast service', () => {
 
     const beaches: Beach[] = [
       {
-        latitude: -33.792726,
-        longitude: 151.289824,
+        lat: -33.792726,
+        lng: 151.289824,
         name: 'Manly',
         position: BeachPosition.E,
         user: 'some-id',
@@ -25,8 +25,8 @@ describe('Forecast service', () => {
         time: '2020-04-26T00:00:00+00:00',
         forecast: [
           {
-            latitude: -33.792726,
-            longitude: 151.289824,
+            lat: -33.792726,
+            lng: 151.289824,
             name: 'Manly',
             position: 'E',
             rating: 1,
@@ -45,8 +45,8 @@ describe('Forecast service', () => {
         time: '2020-04-26T01:00:00+00:00',
         forecast: [
           {
-            latitude: -33.792726,
-            longitude: 151.289824,
+            lat: -33.792726,
+            lng: 151.289824,
             name: 'Manly',
             position: 'E',
             rating: 1,
@@ -65,8 +65,8 @@ describe('Forecast service', () => {
         time: '2020-04-26T02:00:00+00:00',
         forecast: [
           {
-            latitude: -33.792726,
-            longitude: 151.289824,
+            lat: -33.792726,
+            lng: 151.289824,
             name: 'Manly',
             position: 'E',
             rating: 1,
@@ -97,8 +97,8 @@ describe('Forecast service', () => {
   it('should throw internal processing error when something goes wrong during the rating process', async () => {
     const beaches: Beach[] = [
       {
-        latitude: -33.792726,
-        longitude: 151.289824,
+        lat: -33.792726,
+        lng: 151.289824,
         name: 'Manly',
         position: BeachPosition.E,
         user: 'some-id',

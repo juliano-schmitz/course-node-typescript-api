@@ -6,8 +6,8 @@ describe('Beaches functional tests', () => {
   describe('When creating a new beach', () => {
     it('should create a beach with success', async () => {
       const newBeach = {
-        latitude: -33.792726,
-        longitude: 151.289824,
+        lat: -33.792726,
+        lng: 151.289824,
         name: 'Manly',
         position: 'E',
       };
@@ -19,8 +19,8 @@ describe('Beaches functional tests', () => {
 
     it('should return 422 when there is a validation error', async () => {
       const newBeach = {
-        latitude: 'string_is_invalid',
-        longitude: 151.289824,
+        lat: 'string_is_invalid',
+        lng: 151.289824,
         name: 'Manly',
         position: 'E',
       };
@@ -28,7 +28,7 @@ describe('Beaches functional tests', () => {
       const response = await global.testRequest.post('/beaches').send(newBeach);
       expect(response.status).toBe(422);
       expect(response.body).toEqual({
-        error: 'Beach validation failed: latitude: Cast to Number failed for value "string_is_invalid" at path "latitude"',
+        error: 'Beach validation failed: lat: Cast to Number failed for value "string_is_invalid" at path "lat"',
       });
     });
 

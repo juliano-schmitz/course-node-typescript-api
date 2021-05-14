@@ -10,9 +10,8 @@ export enum BeachPosition {
 
 export interface Beach {
   name: string;
-  user: string;
-  latitude: number;
-  longitude: number;
+  lat: number;
+  lng: number;
   position: BeachPosition;
 }
 
@@ -38,7 +37,7 @@ export class Forecast {
 
     try {
       for(const beach of beaches) {
-        const points = await this.stormGlass.fetchPoints(beach.latitude, beach.longitude);
+        const points = await this.stormGlass.fetchPoints(beach.lat, beach.lng);
         const enrichedBeachData = this.enrichedBeachData(points, beach);
         pointsWithCorrectSources.push(...enrichedBeachData);
       }
@@ -52,8 +51,8 @@ export class Forecast {
   private enrichedBeachData(points: ForecastPoint[], beach: Beach): BeachForecast[] {
     return points.map((point) => ({
       ...{
-        latitude: beach.latitude,
-        longitude: beach.longitude,
+        lat: beach.lat,
+        lng: beach.lng,
         name: beach.name,
         position: beach.position,
         rating: 1,

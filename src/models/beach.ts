@@ -10,15 +10,15 @@ export enum BeachPosition {
 export interface Beach {
   _id?: string;
   name: string;
-  latitude: number;
-  longitude: number;
+  lat: number;
+  lng: number;
   position: BeachPosition;
 }
 
 const schema = new mongoose.Schema(
   {
-    latitude: { type: Number, required: true },
-    longitude: { type: Number, required: true },
+    lat: { type: Number, required: true },
+    lng: { type: Number, required: true },
     name: { type: String, required: true },
     position: { type: String, required: true },
   },
