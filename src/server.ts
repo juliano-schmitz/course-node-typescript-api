@@ -4,6 +4,7 @@ import { urlencoded, json, Application } from 'express';
 import * as database from '@src/database';
 import { ForecastController } from './controllers/forecast';
 import { BeachesController } from './controllers/beaches';
+import { UsersController } from './controllers/users';
 
 export class SetupServer extends Server {
   constructor(private port = 3000) {
@@ -28,8 +29,9 @@ export class SetupServer extends Server {
   private setupControllers(): void {
     const forecastController = new ForecastController();
     const beachesController = new BeachesController();
+    const usersController = new UsersController();
 
-    this.addControllers([forecastController, beachesController]);
+    this.addControllers([forecastController, beachesController, usersController]);
   }
 
   private async setupDatabase(): Promise<void> {

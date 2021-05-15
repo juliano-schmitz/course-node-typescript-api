@@ -12,7 +12,6 @@ export class ForecastController {
     _: Request,
     res: Response
   ): Promise<void> {
-    // TODO: refatorar para enviar os dados não estáticos
     try {
       const beaches = await Beach.find({});
       const forecastData = await forecastService.processForecastForBeaches(
