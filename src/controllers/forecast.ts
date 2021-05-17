@@ -2,11 +2,13 @@ import { Controller, Get } from '@overnightjs/core';
 import { Beach } from '@src/models/beach';
 import { Forecast } from '@src/services/forecast';
 import { Request, Response } from 'express';
+import { BaseController } from '@src/controllers/base';
 
 const forecastService = new Forecast();
 
 @Controller('forecast')
-export class ForecastController {
+export class ForecastController extends BaseController {
+  
   @Get('')
   public async getForecastForLoggedUser(
     _: Request,
@@ -19,7 +21,7 @@ export class ForecastController {
       );
       res.status(200).send(forecastData);
     } catch (error) {
-      res.status(500).send({ error: 'Something went wrong' });
+      this.sendCreatedUpdatedErrorResponse(res, error);
     }
   }
 }
